@@ -17,8 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <h1 className="text-lg font-bold text-green-600">🌱 Carbon Dashboard</h1>
               <p className="text-xs text-gray-500 mt-1">Company emissions monitor</p>
             </div>
-            {children}
+            {/* ❌ children 제거 */}
           </aside>
+
           {/* 메인 영역 */}
           <main className="flex-1 p-6 bg-gray-50">{children}</main>
         </div>
