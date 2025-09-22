@@ -31,36 +31,38 @@ export default function Page() {
     })();
   }, [setCompanies, selectCompany]);
 
-  if (loading) return <div className="p-4">로딩중...</div>;
-  if (err) return <div className="p-4 text-red-600">에러: {err}</div>;
+  if (loading) return <div className="p-4 animate-pulse">⏳ 데이터를 불러오는 중...</div>;
+  if (err) return <div className="p-4 text-red-600">❌ 에러: {err}</div>;
 
   const company = companies?.find((c) => c.id === selectedCompanyId);
 
   return (
-  <div className="flex gap-6">
-    <div className="w-[280px]">
-      <NavigationDrawer
-        companies={companies || []}
-        selectedId={selectedCompanyId}
-        onSelect={(id) => selectCompany(id)}
-      />
-    </div>
-    <div className="flex-1">
-      {company ? (
-        <>
-          <h1 className="text-xl font-bold mb-2">{company.name}</h1>
-          <div className="bg-white p-4 rounded shadow">
-            <h4 className="text-sm text-gray-600 mb-2">Monthly Emissions</h4>
-            <EmissionsChart data={company.monthlyEmissions} />
-          </div>
+    <div className="flex gap-6">
+      {/* Drawer */}
+      <div className="w-[260px] hidden md:block">
+        <NavigationDrawer
+          companies={companies || []}
+          selectedId={selectedCompanyId}
+          onSelect={(id) => selectCompany(id)}
+        />
+      </div>
 
-          {/* 메모 작성기 */}
-          <PostEditor companyId={company.id} />
-        </>
-      ) : (
-        <p>회사를 선택하세요</p>
-      )}
+      {/* 메인 컨텐츠 */}
+      <div className="flex-1">
+        {company ? (
+          <>
+            <h1 className="text-2xl font-semibold mb-4">{company.name}</h1>
+            <div className="bg-white p-5 rounded-xl shadow-sm mb-6">
+              <h4 className="text-sm text-gray-600 mb-3">📊 Monthly Emissions</h4>
+              <EmissionsChart data={company.monthlyEmissions} />
+            </div>
+
+            <PostEditor companyId={company.id} />
+          </>
+        ) : (
+          <p>👈 회사를 선택하세요</p>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 }
